@@ -34,3 +34,8 @@ https://blog.csdn.net/thudaliangrx/article/details/50659007
 
 并查集裸题。
 
+# PKu2492 A Bug's Life
+
+> 2018 - 6 - 23
+
+二元的权值并查集模板。
