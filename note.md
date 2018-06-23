@@ -22,3 +22,8 @@ Hash判重：
 
 将Hash压缩的整数取模后得到的Hash值，添加到类似于领接表的大链表中，通过链表进行查找。
 
+> 2018 - 6 - 23
+
+交错双向BFS。
+
+https://blog.csdn.net/thudaliangrx/article/details/50659007
