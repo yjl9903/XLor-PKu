@@ -27,3 +27,10 @@ Hash判重：
 交错双向BFS。
 
 https://blog.csdn.net/thudaliangrx/article/details/50659007
+
+# PKu1611 The Suspects
+
+> 2018 - 6 - 23
+
+并查集裸题。
+
