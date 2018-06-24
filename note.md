@@ -39,3 +39,9 @@ https://blog.csdn.net/thudaliangrx/article/details/50659007
 > 2018 - 6 - 23
 
 二元的权值并查集模板。
+
+# PKu1852 Ants
+
+> 2018 - 6 - 25
+
+忽略两个蚂蚁之间的区别，本质都是交错前进。
