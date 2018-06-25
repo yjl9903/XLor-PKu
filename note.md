@@ -51,3 +51,15 @@ https://blog.csdn.net/thudaliangrx/article/details/50659007
 > 2018 - 6 - 25
 
 dfs求联通块。
+
+# PKu3617 Best Cow Line
+
+> 2018 - 6 - 25
+
+字符串问题，从一个串头尾选择一个小的入栈，如果相同则比较他们下一对头尾，即正序序列和逆序序列进行比较，直到分出大小入栈。
+
+# PKu3069 Saruman's Army 
+
+> 2018 - 6 - 26
+
+注意理解题意。
