@@ -45,3 +45,9 @@ https://blog.csdn.net/thudaliangrx/article/details/50659007
 > 2018 - 6 - 25
 
 忽略两个蚂蚁之间的区别，本质都是交错前进。
+
+# PKu2386 Lake Counting
+
+> 2018 - 6 - 25
+
+dfs求联通块。
