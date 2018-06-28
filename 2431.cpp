@@ -36,6 +36,7 @@ int main(){
             //     }
             //     q.push(stop[i].second);
             // }
+            // ↑ 忽略了节点之间的距离和费用，故WA
             int d = stop[i].first - pos;
             // cout << pos << ' ' << d << endl;
             while (p < d){
