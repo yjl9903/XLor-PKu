@@ -191,3 +191,19 @@ LIS模板题，O(n^2)和O(nlogn)
 > 2018 - 7 - 11
 
 二维偏序 + Dilworth定理 + LIS。
+
+# PKu1384 Piggy-Bank
+
+> 2018 - 7 - 16
+
+完全背包变形。
+
+求恰好填充某一重量的最小价值。
+
+将dp全部初始化为inf，dp[0] = 0
+
+for i = 1...n:
+  for j = w[i]...f-e:
+    dp[j] = min(dp[j], dp[j - w[i]] + p[i])
+
+此时所有dp有值的都是恰好拼成的。
