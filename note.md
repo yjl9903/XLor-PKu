@@ -315,3 +315,9 @@ dfs序 + 线段树 单点修改 区间查询。
 > 2018 - 7 - 27
 
 LIS的nlogn优化。
+
+# PKu1458 Common Subsequence
+
+> 2018 - 7 - 27
+
+LCS.
