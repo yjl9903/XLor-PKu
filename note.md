@@ -479,3 +479,15 @@ tarjan。
 > 2019 - 6 - 15
 
 后缀数组 + 二分。
+
+# PKu2234 Matches Game
+
+> 2019 - 6 - 16
+
+NIM 博弈。
+
+# PKu2311 Cutting Game
+
+> 2019 - 6 - 16
+
+SG 函数。
