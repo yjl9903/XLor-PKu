@@ -21,86 +21,77 @@ const int mod = 998244353;
 const int inf = 1 << 30;
 const int maxn = 200000 + 5;
 
-namespace SA {
-    int n, m, sa[maxn], x[maxn], y[maxn], c[maxn], h[maxn];
+namespace sam {
+    int tot, last, len[maxn], cnt[maxn], link[maxn], ch[maxn][60];
+    void clear() { 
+        ms(ch, 0); ms(cnt, 0); tot = last = 1; 
+    }
+    void insert(int c) {
+        int cur = ++tot, p = last;
+        len[cur] = len[last] + 1; cnt[cur] = 1;
+        for (; p && !ch[p][c]; p = link[p]) ch[p][c] = cur;
+        if (!p) link[cur] = 1;
+        else {
+            int q = ch[p][c];
+            if (len[p] + 1 == len[q]) link[cur] = q;
+            else {
+                int nq = ++tot; len[nq] = len[p] + 1;
+                link[nq] = link[q]; link[q] = link[cur] = nq;
+                memcpy(ch[nq], ch[q], sizeof ch[q]);
+                for (; ch[p][c] == q; p = link[p]) ch[p][c] = nq;
+            }
+        } 
+        last = cur;
+    }
+    int c[maxn], a[maxn];
     void rsort() {
-        for (int i = 1; i <= m; i++) c[i] = 0;
-        for (int i = 1; i <= n; i++) c[x[i]]++;
-        for (int i = 1; i <= m; i++) c[i] += c[i - 1];
-        for (int i = n; i >= 1; i--) sa[c[x[y[i]]]--] = y[i];
-    }
-    int cmp(int i, int j, int k) {
-        int a = i + k > n ? -1 : y[i + k];
-        int b = j + k > n ? -1 : y[j + k];
-        return y[i] == y[j] && a == b;
-    }
-    void build(int nn, char* s) {
-        n = nn; m = 255; // important
-        for (int i = 1; i <= n; i++) x[i] = s[i], y[i] = i;
-        rsort();
-        for (int k = 1, p; k <= n; k += k, m = p) {
-            p = 0;
-            for (int i = n; i > n - k; i--) y[++p] = i;
-            for (int i = 1; i <= n; i++) if (sa[i] > k) y[++p] = sa[i] - k;
-            rsort();
-            // swap(x, y); 
-            for (int i = 1; i <= n; i++) swap(x[i], y[i]);
-            x[sa[1]] = p = 1;
-            for (int i = 2; i <= n; i++) x[sa[i]] = cmp(sa[i], sa[i - 1], k) ? p : ++p;
-        }
-        for (int i = 1; i <= n; i++) x[sa[i]] = i;
-        for (int i = 1, k = 0; i <= n; i++) {
-            if (k) k--;
-            int j = sa[x[i] - 1];
-            while (i + k <= n && j + k <= n && s[i + k] == s[j + k]) k++;
-            h[x[i]] = k;
+        for (int i = 1; i <= tot; i++) c[i] = 0;
+        for (int i = 1; i <= tot; i++) c[len[i]]++;
+        for (int i = 1; i <= tot; i++) c[i] += c[i - 1];
+        for (int i = 1; i <= tot; i++) a[c[len[i]]--] = i;
+        for (int i = tot; i; i--) {
+            int p = a[i];
+            cnt[link[p]] += cnt[p];
         }
     }
 }
+using namespace sam;
 
 char s[maxn];
-int n, m, k;
+int n, m, k, vis[maxn];
+
+int f(char c) {
+    if (c >= 'a' && c <= 'z') return c - 'a';
+    else return c - 'A' + 27;   
+}
 
 int main() {
     while (scanf("%d", &k) == 1 && k) {
         scanf("%s", s + 1);
-        m = strlen(s + 1); s[m + 1] = '$';
-        scanf("%s", s + m + 2);
-        SA::build(n = strlen(s + 1), s);
-        ll ans = 0, sum = 0;
-        vector<PII> stk;
-        for (int i = 2; i <= n; i++) {
-            if (SA::h[i] < k) {
-                stk.clear(); sum = 0; continue;
+        sam::clear();
+        ms(vis, 0);
+        for (int i = 1; s[i]; i++) sam::insert(f(s[i]));
+        sam::rsort();
+        scanf("%s", s + 1);
+        ll ans = 0;
+        int u = 1, l = 0;
+        for (int i = 1; s[i]; i++) {
+            int c = f(s[i]);
+            if (ch[u][c]) u = ch[u][c], l++;
+            else {
+                while (u && !ch[u][c]) u = link[u];
+                if (!u) u = 1, l = 0;
+                else l = len[u] + 1, u = ch[u][c];
             }
-            int tot = 0;
-            while (!stk.empty() && stk.back().first >= SA::h[i]) {
-                tot += stk.back().second;
-                sum -= 1ll * (stk.back().first - SA::h[i]) * stk.back().second;
-                stk.pop_back();
+            if (l >= k) {
+                ans += 1ll * cnt[u] * (l - max(k, len[link[u]] + 1) + 1);
+                if (len[link[u]] >= k) vis[link[u]]++;
             }
-            if (SA::sa[i - 1] <= m) {
-                sum += SA::h[i] - k + 1; tot++;
-            }
-            stk.push_back({ SA::h[i], tot });
-            if (SA::sa[i] > m) ans += sum;
         }
-        stk.clear(); sum = 0;
-        for (int i = 2; i <= n; i++) {
-            if (SA::h[i] < k) {
-                stk.clear(); sum = 0; continue;
-            }
-            int tot = 0;
-            while (!stk.empty() && stk.back().first >= SA::h[i]) {
-                tot += stk.back().second;
-                sum -= 1ll * (stk.back().first - SA::h[i]) * stk.back().second;
-                stk.pop_back();
-            }
-            if (SA::sa[i - 1] > m) {
-                sum += SA::h[i] - k + 1; tot++;
-            }
-            stk.push_back({ SA::h[i], tot });
-            if (SA::sa[i] <= m) ans += sum;
+        for (int i = tot; i >= 1; i--) {
+            int u = a[i];
+            ans += 1ll * vis[u] * (len[u] - max(k, len[link[u]] + 1) + 1) * cnt[u];
+            if (len[link[u]] >= k) vis[link[u]] += vis[u];
         }
         printf("%lld\n", ans);
     }
